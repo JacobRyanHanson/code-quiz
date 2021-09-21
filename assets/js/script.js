@@ -18,6 +18,7 @@ var questionInfo = {
 
 var main = document.querySelector("main");
 var startQuizBtn = document.querySelector("#start-quiz");
+var countdown = document.querySelector(".countdown");
 
 startQuizBtn.addEventListener("click", startQuizHandler);
 
@@ -29,10 +30,9 @@ function startQuizHandler() {
     createElements();
     assignElements();
 
-    quiz();
-}
+    var timeLimit = 60;
+    timer(timeLimit);
 
-function quiz() {
     var btnContainer = document.querySelector(".btnContainer");
     btnContainer.addEventListener("click", nextQuestionHandler);
 }
@@ -90,6 +90,12 @@ function isBtnCorrect(btnText) {
         }
     }
     return isTrue;
+}
+
+function timer(timeLeft) {
+    timeLeft--;
+    countdown.textContent = timeLeft;
+    setTimeout(timer, 1000, timeLeft);
 }
 
 function nextQuestionHandler(event) {
