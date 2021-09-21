@@ -1,3 +1,5 @@
+
+
 var questionInfo = {
     number: 1,
     ask: [
@@ -30,7 +32,7 @@ function startQuizHandler() {
     createElements();
     assignElements();
 
-    var timeLimit = 60;
+    var timeLimit = 6;
     timer(timeLimit);
 
     var btnContainer = document.querySelector(".btnContainer");
@@ -45,11 +47,6 @@ function createElements() {
     for (var i = 0; i < questionInfo.answer[questionInfo.number - 1].length; i++) {
         btn = document.createElement("button");
         btn.className = "answer";
-
-
-        console.log(btn)
-
-
         btnContainer.appendChild(btn);
     }
     main.appendChild(btnContainer);
@@ -93,13 +90,18 @@ function isBtnCorrect(btnText) {
 }
 
 function timer(timeLeft) {
-    timeLeft--;
-    countdown.textContent = timeLeft;
-    setTimeout(timer, 1000, timeLeft);
+    var stop = false;
+    if (timeLeft > 0 && document.querySelector(".title").textContent != "Complete!") {
+        timeLeft--;
+        countdown.textContent = timeLeft;
+        setTimeout(timer, 1000, timeLeft, stop);
+    } else if (timeLeft === 0) {
+        alert("Out of time.")
+        endPage();
+    }
 }
 
 function nextQuestionHandler(event) {
-    console.log(questionInfo.number - 1)
     if (questionInfo.number - 1 < questionInfo.ask.length - 1 && questionInfo.number - 1 != questionInfo.ask.length - 1) {
         questionInfo.number++;
         assignElements();
@@ -116,6 +118,7 @@ function nextQuestionHandler(event) {
 }
 
 function endPage() {
+    var score = document.querySelector(".countdown").textContent;
     document.querySelector(".title").textContent = "Complete!";
 
     var btns = document.querySelectorAll(".answer")
@@ -125,11 +128,32 @@ function endPage() {
 
     var scoreMsg = document.querySelector(".btnContainer");
     scoreMsg.className = "scoreMsg";
-    scoreMsg.textContent = "Final Score: ";
+    scoreMsg.textContent = "Final Score: " + score;
 
-    var initialsContainer = document.createElement("div");
-    initialsContainer.className = "initialsContainer";
-    initialsContainer.innerHTML = "<label for='initials'>Enter Initials: <label>" + "<input type='text'>" +
+    var initialsForm = document.createElement("form");
+    initialsForm.className = "form";
+    initialsForm.innerHTML = "<label for='initials'>Enter Initials: <label>" + "<input type='text'>" +
         "<button type='submit'>Submit</button>";
-    main.insertBefore(initialsContainer, document.querySelector(".feedbackContainer"));
+    main.insertBefore(initialsForm, document.querySelector(".feedbackContainer"));
+
+    initialsForm.addEventListener("submit", function(event) {saveScores(event, score)});
+}
+
+function saveScores(event, score) {
+    event.preventDefault();
+    
+    var highScores = JSON.parse(localStorage.getItem("highScores"));
+    if (highScores === null) {
+        highScores = [];
+    }
+
+    var highScore = {
+        identity: document.querySelector("form input").value,
+        score: score
+    }
+    
+    highScores.push(highScore);
+    localStorage.setItem("highScores", JSON.stringify(highScores));
+
+    window.location.href = "./high-scores.html";
 }
