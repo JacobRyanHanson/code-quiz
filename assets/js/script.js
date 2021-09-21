@@ -23,7 +23,7 @@ startQuizBtn.addEventListener("click", startQuizHandler);
 
 function startQuizHandler() {
     var introPage = document.querySelectorAll(".intro");
-    for (var i = 1; i < introPage.length; i++) {
+    for (var i = 0; i < introPage.length; i++) {
         introPage[i].remove();
     }
     createElements();
@@ -58,12 +58,12 @@ function createElements() {
     var feedback = document.createElement("h2");
     feedback.className = "feedback";
     feedbackContainer.appendChild(feedback);
+    feedbackContainer.className = "feedbackContainer";
     main.appendChild(feedbackContainer);
 }
 
 function assignElements() {
-    var question = document.querySelector("main h1");
-    question.className = "question";
+    var question = document.querySelector(".title");
     question.textContent = questionInfo.ask[questionInfo.number - 1];
 
     var btns = document.querySelectorAll(".answer");
@@ -93,10 +93,13 @@ function isBtnCorrect(btnText) {
 }
 
 function nextQuestionHandler(event) {
-    if (questionInfo.number - 1 < questionInfo.ask.length - 1) {
+    console.log(questionInfo.number - 1)
+    if (questionInfo.number - 1 < questionInfo.ask.length - 1 && questionInfo.number - 1 != questionInfo.ask.length - 1) {
         questionInfo.number++;
+        assignElements();
+    } else {
+        endPage();
     }
-    assignElements();
 
     var feedback = document.querySelector(".feedback");
     if (event.target.matches("[data-answer-id='true'")) {
@@ -104,4 +107,23 @@ function nextQuestionHandler(event) {
     } else if (event.target.matches("[data-answer-id='false'")) {
         feedback.textContent = "Incorrect"
     }
+}
+
+function endPage() {
+    document.querySelector(".title").textContent = "Complete!";
+
+    var btns = document.querySelectorAll(".answer")
+    for (var i = 0; i < btns.length; i++) {
+        btns[i].remove();
+    }
+
+    var scoreMsg = document.querySelector(".btnContainer");
+    scoreMsg.className = "scoreMsg";
+    scoreMsg.textContent = "Final Score: ";
+
+    var initialsContainer = document.createElement("div");
+    initialsContainer.className = "initialsContainer";
+    initialsContainer.innerHTML = "<label for='initials'>Enter Initials: <label>" + "<input type='text'>" +
+        "<button type='submit'>Submit</button>";
+    main.insertBefore(initialsContainer, document.querySelector(".feedbackContainer"));
 }
