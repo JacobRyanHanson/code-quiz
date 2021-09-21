@@ -1,5 +1,3 @@
-
-
 var questionInfo = {
     number: 1,
     ask: [
@@ -32,7 +30,7 @@ function startQuizHandler() {
     createElements();
     assignElements();
 
-    var timeLimit = 6;
+    var timeLimit = 60;
     timer(timeLimit);
 
     var btnContainer = document.querySelector(".btnContainer");
@@ -142,18 +140,34 @@ function endPage() {
 function saveScores(event, score) {
     event.preventDefault();
     
-    var highScores = JSON.parse(localStorage.getItem("highScores"));
-    if (highScores === null) {
-        highScores = [];
-    }
-
     var highScore = {
-        identity: document.querySelector("form input").value,
+        identity: document.querySelector("form input").value.toUpperCase(),
         score: score
     }
-    
-    highScores.push(highScore);
-    localStorage.setItem("highScores", JSON.stringify(highScores));
 
-    window.location.href = "./high-scores.html";
+    if (highScore.identity && highScore.identity.length === 2) {
+        var highScores = JSON.parse(localStorage.getItem("highScores"));
+        if (highScores === null) {
+            highScores = [];
+        }
+
+        if(!isDuplicate(highScore, highScores)) {
+            highScores.push(highScore);
+            localStorage.setItem("highScores", JSON.stringify(highScores));
+        }
+
+        window.location.href = "./high-scores.html";
+    } else {
+        alert("Invalid input. Please enter a pair of initials.");
+    }
+}
+
+function isDuplicate(highScore, highScores) {
+    var isDuplicate = false;
+    for (var i = 0; i < highScores.length; i++) {
+        if (highScore.identity === highScores[i].identity && highScore.score === highScores[i].score) {
+            isDuplicate = true;
+        }
+    }
+    return isDuplicate;
 }
