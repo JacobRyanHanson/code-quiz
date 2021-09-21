@@ -2,6 +2,7 @@ var main = document.querySelector("main");
 var startQuizBtn = document.querySelector("#start-quiz");
 
 startQuizBtn.addEventListener("click", startQuizHandler);
+main.addEventListener("click", nextQuestion);
 
 function startQuizHandler(event) {
     var introPage = document.querySelectorAll(".intro");
@@ -37,15 +38,38 @@ function answers(questionNumber) {
         ["JavaScript", "Terminal", "For Loops", "console.log"]
     ]
 
+    var correctAnswers = ["Alerts", "Braces", "All of the above", "Quotes", "console.log"]
+
     var btnContainer = document.createElement("div");
     btnContainer.className = "btnContainer";
 
     var btn;
-    for (var i = 0; i < 4; i++) {
+    var arrayAnswerIndex = questionChoices[questionNumber - 1];
+    for (var i = 0; i < arrayAnswerIndex.length; i++) {
         btn = document.createElement("button")
-        btn.textContent = questionChoices[questionNumber - 1][i];
+        btn.textContent = arrayAnswerIndex[i];
+
+        var isCorrect = isBtnCorrect(arrayAnswerIndex[i], correctAnswers);
+        if (isCorrect) {
+            btn.setAttribute("data-answer-id", true);
+        } else if (!isCorrect) {
+            btn.setAttribute("data-answer-id", false);
+        }
         btnContainer.appendChild(btn);
     }
     main.appendChild(btnContainer);
 }
 
+function isBtnCorrect(answerBtn, correctAnswers) {
+    var isTrue = false;
+    for (var i = 0; i < correctAnswers.length; i++) {
+        if (answerBtn === correctAnswers[i]) {
+            isTrue = true;
+        }
+    }
+    return isTrue;
+}
+
+function nextQuestion(event) {
+    //if ()
+}
