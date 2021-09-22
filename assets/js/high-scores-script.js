@@ -1,3 +1,6 @@
+var btnForm = document.querySelector(".btn-form");
+btnForm.addEventListener("click", updatePageHandler)
+
 loadScores();
 
 function loadScores() {
@@ -7,11 +10,23 @@ function loadScores() {
     }
 
     var scoreList = document.querySelector(".score-list");
-    var orderedList = document.createElement("ol");
+    var orderedList = document.querySelector("ol");
     for (var i = 0; i < savedScores.length; i++) {
         var listItem = document.createElement("li");
         listItem.textContent += savedScores[i].identity + " " + savedScores[i].score;
         orderedList.appendChild(listItem);
     }
-    scoreList.appendChild(orderedList);
+}
+
+function updatePageHandler(event) {
+    event.preventDefault();
+    if (event.target.matches(".return-btn")) {
+        window.location.href = "./index.html";
+    } else if (event.target.matches(".clear-btn")) {
+        localStorage.removeItem("highScores");
+        var listItems = document.querySelectorAll("li")
+        for (var i = 0; i < listItems.length; i++) {
+            listItems[i].remove();
+        }
+    }
 }

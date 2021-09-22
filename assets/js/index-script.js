@@ -103,9 +103,9 @@ function nextQuestionHandler(event) {
     var btnContainer = document.querySelector(".btnContainer");
     btnContainer.removeEventListener("click", nextQuestionHandler);
     var feedback = document.querySelector(".feedback");
-    if (event.target.matches("[data-answer-id='true'")) {
+    if (event.target.matches("[data-answer-id='true']")) {
         feedback.textContent = "Correct"
-    } else if (event.target.matches("[data-answer-id='false'")) {
+    } else if (event.target.matches("[data-answer-id='false']")) {
         feedback.textContent = "Incorrect"
         timeLimit -= 10;
     }
