@@ -3,6 +3,7 @@ btnForm.addEventListener("click", updatePageHandler)
 
 loadScores();
 
+// Loads scores from local storage.
 function loadScores() {
     var savedScores = JSON.parse(localStorage.getItem("highScores"));
     if (!savedScores) {
@@ -17,6 +18,7 @@ function loadScores() {
     }
 }
 
+// Handles button presses either to return to the quiz page or clear local storage (high scores).
 function updatePageHandler(event) {
     event.preventDefault();
     if (event.target.matches(".return-btn")) {

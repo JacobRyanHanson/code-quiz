@@ -34,6 +34,8 @@ function startQuizHandler() {
     timer();
 }
 
+// Creates elements that will be needed, namley: containers for the buttons
+// and user feedback as well as the buttons themselves.
 function createElements() {
     var btnContainer = document.createElement("div");
     btnContainer.className = "btnContainer";
@@ -54,6 +56,7 @@ function createElements() {
     main.appendChild(feedbackContainer);
 }
 
+// Assings both text and data values to created elements.
 function assignElements() {
     var btnContainer = document.querySelector(".btnContainer");
     btnContainer.addEventListener("click", nextQuestionHandler);
@@ -75,6 +78,7 @@ function assignElements() {
     }
 }
 
+// Checks to see if the button holds a correct answer for the current question.
 function isBtnCorrect(btnText) {
     var correctAnswers = ["Alerts", "Braces", "All of the above", "Quotes", "console.log"]
 
@@ -87,6 +91,7 @@ function isBtnCorrect(btnText) {
     return isTrue;
 }
 
+// Counts down recursively.
 function timer() {
     if (timeLimit > 0 && document.querySelector(".title").textContent != "Complete!") {
         timeLimit--;
@@ -98,9 +103,10 @@ function timer() {
     }
 }
 
+// When a question is clicked feedback is displayed and after a delay the next question appears.
 function nextQuestionHandler(event) {
     var btnContainer = document.querySelector(".btnContainer");
-    btnContainer.removeEventListener("click", nextQuestionHandler);
+    btnContainer.removeEventListener("click", nextQuestionHandler); // EventhListener removed to prevent quetion skipping / short circuits.
     var feedback = document.querySelector(".feedback");
     if (event.target.matches("[data-answer-id='true']")) {
         feedback.textContent = "Correct"
@@ -118,11 +124,11 @@ function nextQuestionHandler(event) {
     }
 }
 
+// Runs ending tasks including: removing excess elements, displaying a final score, and allowing the user to enter their initials.
 function endPage() {
     var score = document.querySelector(".countdown").textContent;
     var title = document.querySelector(".title");
     title.textContent = "Complete!";
-    title.className = "title";
 
     var btns = document.querySelectorAll(".answer")
     for (var i = 0; i < btns.length; i++) {
@@ -142,6 +148,7 @@ function endPage() {
     initialsForm.addEventListener("submit", function (event) {saveScores(event, score)});
 }
 
+// Saves the user's score, preventing duplicates.
 function saveScores(event, score) {
     event.preventDefault();
 
@@ -167,6 +174,7 @@ function saveScores(event, score) {
     }
 }
 
+// Checks for duplicate high scores and avoids listing them.
 function isDuplicate(highScore, highScores) {
     var isDuplicate = false;
     for (var i = 0; i < highScores.length; i++) {
