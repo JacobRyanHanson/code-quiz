@@ -1,3 +1,91 @@
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
 body {
     font-family: Helvetica, Arial, sans-serif;
+    color: #000;
+    background: #bed3c3;
+}
+
+header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background: #4a919e;
+    padding: 20px;
+    font-size: 25px;
+}
+
+header a {
+    color: #000;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: 100px;
+    align-items: center;
+
+}
+main * {
+    font-weight: normal;
+    text-align: center;
+    padding: 10px;
+}
+
+main .title {
+    font-size: 50px;
+}
+
+main .intro, .scoreMsg{
+    font-size: 32px;
+    width: 70%;
+}
+
+main button {
+    padding: 5px;
+    background: #4a919e;
+    font-size: 25px;
+}
+
+.question {
+    width: 60%;
+}
+.btnContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 60%;
+}
+
+.btnContainer button {
+    flex-grow: 1;
+    margin: 20px;
+}
+
+.feedbackContainer {
+    width: 60%;
+    border-top: 2px solid #000;
+}
+
+.form {
+    display: flex;
+    justify-content: center;
+}
+
+.form * {
+    font-size: 25px;
+}
+
+.form button {
+    margin-left: 10px;
+}
+
+.form input {
+    width: 20%;
 }

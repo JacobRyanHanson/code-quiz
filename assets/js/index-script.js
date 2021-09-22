@@ -35,6 +35,8 @@ function startQuizHandler() {
 }
 
 function createElements() {
+    document.querySelector(".title").className = "question";
+
     var btnContainer = document.createElement("div");
     btnContainer.className = "btnContainer";
 
@@ -58,7 +60,7 @@ function assignElements() {
     var btnContainer = document.querySelector(".btnContainer");
     btnContainer.addEventListener("click", nextQuestionHandler);
 
-    var question = document.querySelector(".title");
+    var question = document.querySelector(".question");
     question.textContent = questionInfo.ask[questionInfo.number - 1];
 
     var btns = document.querySelectorAll(".answer");
@@ -89,7 +91,7 @@ function isBtnCorrect(btnText) {
 
 function timer() {
     var stop = false;
-    if (timeLimit > 0 && document.querySelector(".title").textContent != "Complete!") {
+    if (timeLimit > 0 && document.querySelector(".question").textContent != "Complete!") {
         timeLimit--;
         countdown.textContent = timeLimit;
         setTimeout(timer, 1000, timeLimit);
@@ -121,7 +123,9 @@ function nextQuestionHandler(event) {
 
 function endPage() {
     var score = document.querySelector(".countdown").textContent;
-    document.querySelector(".title").textContent = "Complete!";
+    var title = document.querySelector(".question");
+    title.textContent = "Complete!";
+    title.className = "title";
 
     var btns = document.querySelectorAll(".answer")
     for (var i = 0; i < btns.length; i++) {
@@ -134,7 +138,7 @@ function endPage() {
 
     var initialsForm = document.createElement("form");
     initialsForm.className = "form";
-    initialsForm.innerHTML = "<label for='initials'>Enter Initials: <label>" + "<input type='text'>" +
+    initialsForm.innerHTML = "<label class='initials'>Enter Initials: </label>" + "<input type='text'>" +
         "<button type='submit'>Submit</button>";
     main.insertBefore(initialsForm, document.querySelector(".feedbackContainer"));
 
