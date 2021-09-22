@@ -1,3 +1,5 @@
+var timeLimit = 120;
+
 var questionInfo = {
     number: 1,
     ask: [
@@ -29,12 +31,7 @@ function startQuizHandler() {
     }
     createElements();
     assignElements();
-
-    var timeLimit = 60;
-    timer(timeLimit);
-
-    var btnContainer = document.querySelector(".btnContainer");
-    btnContainer.addEventListener("click", nextQuestionHandler);
+    timer();
 }
 
 function createElements() {
@@ -58,6 +55,9 @@ function createElements() {
 }
 
 function assignElements() {
+    var btnContainer = document.querySelector(".btnContainer");
+    btnContainer.addEventListener("click", nextQuestionHandler);
+
     var question = document.querySelector(".title");
     question.textContent = questionInfo.ask[questionInfo.number - 1];
 
@@ -87,31 +87,35 @@ function isBtnCorrect(btnText) {
     return isTrue;
 }
 
-function timer(timeLeft) {
+function timer() {
     var stop = false;
-    if (timeLeft > 0 && document.querySelector(".title").textContent != "Complete!") {
-        timeLeft--;
-        countdown.textContent = timeLeft;
-        setTimeout(timer, 1000, timeLeft, stop);
-    } else if (timeLeft === 0) {
+    if (timeLimit > 0 && document.querySelector(".title").textContent != "Complete!") {
+        timeLimit--;
+        countdown.textContent = timeLimit;
+        setTimeout(timer, 1000, timeLimit);
+    } else if (timeLimit === 0) {
         alert("Out of time.")
         endPage();
     }
 }
 
 function nextQuestionHandler(event) {
-    if (questionInfo.number - 1 < questionInfo.ask.length - 1 && questionInfo.number - 1 != questionInfo.ask.length - 1) {
-        questionInfo.number++;
-        assignElements();
-    } else {
-        endPage();
-    }
-
+    var btnContainer = document.querySelector(".btnContainer");
+    btnContainer.removeEventListener("click", nextQuestionHandler);
     var feedback = document.querySelector(".feedback");
     if (event.target.matches("[data-answer-id='true'")) {
         feedback.textContent = "Correct"
     } else if (event.target.matches("[data-answer-id='false'")) {
         feedback.textContent = "Incorrect"
+        timeLimit -= 10;
+    }
+    setTimeout(function () {feedback.textContent = ""}, 2000);
+
+    if (questionInfo.number - 1 < questionInfo.ask.length - 1 && questionInfo.number - 1 != questionInfo.ask.length - 1) {
+        questionInfo.number++;
+        setTimeout(function() {assignElements()}, 2000);
+    } else {
+        endPage();
     }
 }
 
@@ -134,12 +138,12 @@ function endPage() {
         "<button type='submit'>Submit</button>";
     main.insertBefore(initialsForm, document.querySelector(".feedbackContainer"));
 
-    initialsForm.addEventListener("submit", function(event) {saveScores(event, score)});
+    initialsForm.addEventListener("submit", function (event) {saveScores(event, score)});
 }
 
 function saveScores(event, score) {
     event.preventDefault();
-    
+
     var highScore = {
         identity: document.querySelector("form input").value.toUpperCase(),
         score: score
@@ -151,7 +155,7 @@ function saveScores(event, score) {
             highScores = [];
         }
 
-        if(!isDuplicate(highScore, highScores)) {
+        if (!isDuplicate(highScore, highScores)) {
             highScores.push(highScore);
             localStorage.setItem("highScores", JSON.stringify(highScores));
         }
