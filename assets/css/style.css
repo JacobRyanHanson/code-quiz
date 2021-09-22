@@ -53,9 +53,10 @@ main button {
     font-size: 25px;
 }
 
-.question {
+.title {
     width: 60%;
 }
+
 .btnContainer {
     display: flex;
     flex-wrap: wrap;
@@ -88,4 +89,26 @@ main button {
 
 .form input {
     width: 20%;
+}
+
+/*--------high-scores.html styles--------*/
+.scoreboard {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    background: #4a919e;
+}
+.scoreboard h1 {
+    width: 100%;
+    font-size: 50px;
+}
+
+.scoreboard li {
+    text-align: left;
+    font-size: 32px;
+}
+
+.btn-form button {
+    margin: 10px;
 }

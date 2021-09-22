@@ -9,8 +9,7 @@ function loadScores() {
         return false;
     }
 
-    var scoreList = document.querySelector(".score-list");
-    var orderedList = document.querySelector("ol");
+    var orderedList = document.querySelector(".score-list");
     for (var i = 0; i < savedScores.length; i++) {
         var listItem = document.createElement("li");
         listItem.textContent += savedScores[i].identity + " " + savedScores[i].score;

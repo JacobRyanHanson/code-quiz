@@ -35,8 +35,6 @@ function startQuizHandler() {
 }
 
 function createElements() {
-    document.querySelector(".title").className = "question";
-
     var btnContainer = document.createElement("div");
     btnContainer.className = "btnContainer";
 
@@ -60,7 +58,7 @@ function assignElements() {
     var btnContainer = document.querySelector(".btnContainer");
     btnContainer.addEventListener("click", nextQuestionHandler);
 
-    var question = document.querySelector(".question");
+    var question = document.querySelector(".title");
     question.textContent = questionInfo.ask[questionInfo.number - 1];
 
     var btns = document.querySelectorAll(".answer");
@@ -90,8 +88,7 @@ function isBtnCorrect(btnText) {
 }
 
 function timer() {
-    var stop = false;
-    if (timeLimit > 0 && document.querySelector(".question").textContent != "Complete!") {
+    if (timeLimit > 0 && document.querySelector(".title").textContent != "Complete!") {
         timeLimit--;
         countdown.textContent = timeLimit;
         setTimeout(timer, 1000, timeLimit);
@@ -117,13 +114,13 @@ function nextQuestionHandler(event) {
         questionInfo.number++;
         setTimeout(function() {assignElements()}, 2000);
     } else {
-        endPage();
+        setTimeout(function() {endPage()}, 2000);
     }
 }
 
 function endPage() {
     var score = document.querySelector(".countdown").textContent;
-    var title = document.querySelector(".question");
+    var title = document.querySelector(".title");
     title.textContent = "Complete!";
     title.className = "title";
 
